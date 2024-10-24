@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <ul class="navbar-list">
+    @for (page of pages; track page){
+    <li class="navbar-item">
+      <button
+        class="navbar-link"
+        [class.active]="page === activePage"
+        (click)="loadPage(page)"
+      >
+        {{ page | titlecase }}
+      </button>
+    </li>
+    }
+  </ul>
+</nav>
+
+<ng-container #container></ng-container>

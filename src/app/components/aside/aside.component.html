@@ -1,0 +1,91 @@
+<aside class="sidebar" [class.active]="isActive">
+  <div class="sidebar-info">
+    <figure class="avatar-box">
+      <img src="assets/test.png" alt="Fabio Della Rosa" width="60" />
+    </figure>
+
+    <div class="info-content">
+      <h1 class="name" title="Fabio Della Rosa">Fabio Della Rosa</h1>
+
+      <p class="title">Full Stack Developer</p>
+    </div>
+
+    <button class="info_more-btn" (click)="toggleSidebar()">
+      <span>Show Contacts</span>
+      X
+    </button>
+  </div>
+
+  <div class="sidebar-info_more">
+    <div class="separator"></div>
+
+    <ul class="contacts-list">
+      <li class="contact-item">
+        <div class="icon-box">
+          <i class="bi bi-envelope-at"></i>
+        </div>
+
+        <div class="contact-info">
+          <p class="contact-title">Email</p>
+
+          <a href="mailto:fabiodellarosa126@gmail.com" class="contact-link"
+            >fabiodellarosa126&#64;gmail.com</a
+          >
+        </div>
+      </li>
+
+      <li class="contact-item">
+        <div class="icon-box">
+          <i class="bi bi-phone"></i>
+        </div>
+
+        <div class="contact-info">
+          <p class="contact-title">Phone</p>
+          <a href="tel:+393495209261" class="contact-link">(+39) 349 5209261</a>
+        </div>
+      </li>
+
+      <li class="contact-item">
+        <div class="icon-box"><i class="bi bi-calendar3"></i></div>
+
+        <div class="contact-info">
+          <p class="contact-title">Birthday</p>
+
+          <time datetime="1982-06-23">February 14, 2000</time>
+        </div>
+      </li>
+
+      <li class="contact-item">
+        <div class="icon-box"><i class="bi bi-geo"></i></div>
+
+        <div class="contact-info">
+          <p class="contact-title">Location</p>
+
+          <address>Varese, Lombardia, ITA</address>
+        </div>
+      </li>
+    </ul>
+
+    <div class="separator"></div>
+
+    <ul class="social-list">
+      <li class="social-item">
+        <a href="#" class="social-link">
+          <i name="logo-facebook"></i>
+        </a>
+      </li>
+
+      <li class="social-item">
+        <a href="#" class="social-link">
+          <i name="logo-twitter"></i>
+        </a>
+      </li>
+
+      <li class="social-item">
+        <a href="#" class="social-link">
+          <i name="logo-instagram"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

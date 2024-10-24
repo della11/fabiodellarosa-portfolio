@@ -1,0 +1,55 @@
+<section class="testimonials">
+  <h3 class="h3 testimonials-title">Testimonials</h3>
+
+  <ul class="testimonials-list has-scrollbar">
+    @for (testimonial of testimonials; track $index) {
+    <li class="testimonials-item">
+      <div class="content-card" (click)="openModal(testimonial)">
+        <figure class="testimonials-avatar-box">
+          <img [src]="testimonial.img" [alt]="testimonial.name" width="60" />
+        </figure>
+
+        <h4 class="h4 testimonials-item-title">{{ testimonial.name }}</h4>
+
+        <div class="testimonials-text">
+          <p>{{ testimonial.text }}</p>
+        </div>
+      </div>
+    </li>
+    }
+  </ul>
+</section>
+
+<!-- Modal -->
+@if (isModalOpen) {
+<div class="modal-container active">
+  <div class="overlay" (click)="closeModal()"></div>
+
+  <section class="testimonials-modal">
+    <button class="modal-close-btn" (click)="closeModal()">
+      <i name="close-outline">X</i>
+    </button>
+
+    <div class="modal-img-wrapper">
+      <figure class="modal-avatar-box">
+        <img
+          [src]="selectedTestimonial?.img"
+          [alt]="selectedTestimonial?.name"
+          width="80"
+        />
+      </figure>
+
+      <img src="./assets/images/icon-quote.svg" alt="quote icon" />
+    </div>
+
+    <div class="modal-content">
+      <h4 class="h3 modal-title">{{ selectedTestimonial?.name }}</h4>
+      <time>{{ selectedTestimonial?.date }}</time>
+
+      <div>
+        <p>{{ selectedTestimonial?.text }}</p>
+      </div>
+    </div>
+  </section>
+</div>
+}
