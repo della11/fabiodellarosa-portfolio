@@ -9,6 +9,7 @@ import { ContactComponent } from '../contact/contact.component';
 import { PortfolioComponent } from '../portfolio/portfolio.component';
 import { ResumeComponent } from '../resume/resume.component';
 import { TitlecasePipe } from '../../pipes/titlecase.pipe';
+import { BlogComponent } from '../blog/blog.component';
 
 @Component({
   selector: 'fdr11-navbar',
@@ -25,7 +26,7 @@ import { TitlecasePipe } from '../../pipes/titlecase.pipe';
 })
 export class NavbarComponent implements AfterViewInit {
   vcr = viewChild('container', { read: ViewContainerRef });
-  pages: string[] = ['about', 'resume', 'portfolio', 'contact'];
+  pages: string[] = ['about', 'resume', 'portfolio', 'blog', 'contact'];
   activePage: string = 'about'; // Pagina attiva inizialmente
 
   ngAfterViewInit(): void {
@@ -48,6 +49,7 @@ export class NavbarComponent implements AfterViewInit {
       about: AboutComponent,
       resume: ResumeComponent,
       portfolio: PortfolioComponent,
+      blog: BlogComponent,
       contact: ContactComponent,
     };
 

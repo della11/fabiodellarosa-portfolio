@@ -2,4 +2,51 @@
   <header>
     <h2 class="h2 article-title">Contact</h2>
   </header>
+
+  <section class="mapbox">
+    <figure>
+      <iframe
+        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Varese+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        width="400"
+        height="300"
+        loading="lazy"
+      ></iframe>
+    </figure>
+  </section>
+
+  <section class="contact-form">
+    <h3 class="h3 form-title">Contact Form</h3>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="fullname"
+          class="form-input"
+          placeholder="Full name"
+          required
+        />
+
+        <input
+          type="email"
+          formControlName="email"
+          class="form-input"
+          placeholder="Email address"
+          required
+        />
+      </div>
+
+      <textarea
+        formControlName="message"
+        class="form-input"
+        placeholder="Your Message"
+        required
+      ></textarea>
+
+      <button class="form-btn" type="submit" [disabled]="contactForm.invalid">
+        <i class="bi bi-send"></i>
+        <span>Send Message</span>
+      </button>
+    </form>
+  </section>
 </article>

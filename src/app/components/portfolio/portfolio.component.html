@@ -1,4 +1,4 @@
-<article class="portfolio active" data-page="portfolio">
+<!-- <article class="portfolio active" data-page="portfolio">
   <header>
     <h2 class="h2 article-title">Portfolio</h2>
   </header>
@@ -24,7 +24,7 @@
 
     <div class="filter-select-box">
       <button class="filter-select" data-select>
-        <div class="select-value" data-selecct-value>Select category</div>
+        <div class="select-value" data-select-value>Select category</div>
 
         <div class="select-icon">
           <i name="chevron-down"></i>
@@ -59,7 +59,7 @@
         <a href="#">
           <figure class="project-img">
             <div class="project-item-icon-box">
-              <i name="eye-outline"></i>
+              <i class="bi bi-eye-fill"></i>
             </div>
 
             <img
@@ -266,6 +266,72 @@
           <p class="project-category">Web development</p>
         </a>
       </li>
+    </ul>
+  </section>
+</article> -->
+
+<article class="portfolio active" data-page="portfolio">
+  <header>
+    <h2 class="h2 article-title">Portfolio</h2>
+  </header>
+
+  <section class="projects">
+    <ul class="filter-list">
+      @for (category of categories; track $index) {
+      <li class="filter-item">
+        <button
+          [class.active]="selectedCategory === category"
+          (click)="filterProjects(category)"
+        >
+          {{ category | titlecase }}
+        </button>
+      </li>
+      }
+    </ul>
+
+    <div class="filter-select-box">
+      <button class="filter-select" data-select (click)="toggleSelectList()">
+        <div class="select-value" data-select-value>
+          {{ selectedCategory | titlecase }}
+        </div>
+        <div class="select-icon">
+          <i class="bi bi-chevron-down"></i>
+        </div>
+      </button>
+
+      @if (isSelectListOpen) {
+      <ul class="select-list">
+        @for (category of categories; track $index) {
+        <li class="filter-item">
+          <button (click)="selectCategory(category)">{{ category }}</button>
+        </li>
+        }
+      </ul>
+
+      }
+    </div>
+
+    <ul class="project-list">
+      @for (project of projects; track $index) {
+      <li
+        class="project-item"
+        [class.active]="
+          selectedCategory === 'all' || selectedCategory === project.category
+        "
+      >
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box">
+              <i class="bi bi-eye-fill"></i>
+            </div>
+            <img [src]="project.img" [alt]="project.title" loading="lazy" />
+          </figure>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-category">{{ project.category | titlecase }}</p>
+        </a>
+      </li>
+
+      }
     </ul>
   </section>
 </article>
