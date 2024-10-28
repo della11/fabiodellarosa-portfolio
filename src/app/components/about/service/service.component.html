@@ -1,0 +1,22 @@
+<section class="service">
+  <h3 class="h3 service-title">What I'm doing</h3>
+
+  <ul class="service-list">
+    @for (service of services; track $index) {
+    <li class="service-item">
+      <div class="service-icon-box">
+        <img [src]="service.source" [alt]="service.title" width="40" />
+      </div>
+
+      <div class="service-content-box">
+        <h4 class="h4 service-item-title">{{ service.title | titlecase }}</h4>
+
+        <p class="service-item-text">
+          {{ service.description }}
+        </p>
+      </div>
+    </li>
+
+    }
+  </ul>
+</section>
