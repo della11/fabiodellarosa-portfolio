@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Testimonial } from '../../../models/testimonial';
 
 @Component({
   selector: 'fdr11-testimonial',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './testimonial.component.scss',
 })
 export class TestimonialComponent {
-  testimonials = [
+  testimonials: Testimonial[] = [
     {
       name: 'Random User1',
       img: './assets/images/avatar-1.png',

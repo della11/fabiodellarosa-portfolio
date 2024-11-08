@@ -14,4 +14,16 @@ export class AsideComponent {
   toggleSidebar() {
     this.isActive = !this.isActive;
   }
+
+  navigateToGitHub() {
+    window.open('https://github.com/della11', '_blank');
+  }
+
+  navigateToLinkedIn() {
+    window.open('https://www.linkedin.com/in/fabio-della-rosa', '_blank');
+  }
+
+  navigateToInstagram() {
+    window.open('https://www.instagram.com/fabiodellarosa_', '_blank');
+  }
 }

@@ -1,45 +1,12 @@
 <section class="clients">
   <h3 class="h3 clients-title">Clients</h3>
-
   <ul class="clients-list has-scrollbar">
+    @for (imageUrl$ of clientsImages$; track $index) {
     <li class="clients-item">
       <a href="#">
-        <img src="assets/aruba.png" alt="Aruba Spa" />
+        <img [src]="imageUrl$ | async" alt="client" />
       </a>
     </li>
-
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/microstudio.png" alt="Microstudio" />
-      </a>
-    </li>
-
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/cavagnagroup.png" alt="Cavagna Group" />
-      </a>
-    </li>
-
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/isa.png" alt="ISA" />
-      </a>
-    </li>
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/schindler.png" alt="Schindler" />
-      </a>
-    </li>
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/replay.png" alt="Replay" />
-      </a>
-    </li>
-
-    <li class="clients-item">
-      <a href="#">
-        <img src="assets/be-tse.png" alt="Be-tse" />
-      </a>
-    </li>
+    }
   </ul>
 </section>

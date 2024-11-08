@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TitlecasePipe } from '../../../pipes/titlecase.pipe';
+import { Service } from '../../../models/service';
 
 @Component({
   selector: 'fdr11-service',
@@ -10,12 +11,12 @@ import { TitlecasePipe } from '../../../pipes/titlecase.pipe';
 })
 export class ServiceComponent {
   //TODO -  USE FIREBASE data
-  services = [
+  services: Service[] = [
     {
       title: 'web development',
       description:
         ' High-quality development of sites at the professional level.',
-      source: './assets/images/icon-dev.svg',
+      img: './assets/images/icon-dev.svg',
     },
   ];
 }

@@ -1,0 +1,8 @@
+@if (isVisible) {
+<div class="toast" [ngClass]="toastClass">
+  <span>{{ message }}</span>
+  <button (click)="closeToast()">
+    <i class="bi bi-x"></i>
+  </button>
+</div>
+}

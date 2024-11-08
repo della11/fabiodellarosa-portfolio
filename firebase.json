@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist/fabiodellarosa-portfolio/browser",
+    "site": "fabiodellarosa-dev-portfolio",
     "rewrites": [
       {
         "source": "**/**",

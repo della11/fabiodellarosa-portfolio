@@ -1,6 +1,8 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
+  inject,
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -10,6 +12,7 @@ import { PortfolioComponent } from '../portfolio/portfolio.component';
 import { ResumeComponent } from '../resume/resume.component';
 import { TitlecasePipe } from '../../pipes/titlecase.pipe';
 import { BlogComponent } from '../blog/blog.component';
+import { AdminPanelComponent } from '../admin-panel/admin-panel.component';
 
 @Component({
   selector: 'fdr11-navbar',
@@ -29,8 +32,15 @@ export class NavbarComponent implements AfterViewInit {
   pages: string[] = ['about', 'resume', 'portfolio', 'blog', 'contact'];
   activePage: string = 'about'; // Pagina attiva inizialmente
 
+  private cdr = inject(ChangeDetectorRef);
+
   ngAfterViewInit(): void {
     this.loadPage(this.activePage);
+
+    let x = localStorage.getItem('admin');
+    if (x) this.pages = [...this.pages, 'admin'];
+
+    this.cdr.detectChanges();
   }
 
   loadPage(page: string) {
@@ -51,6 +61,7 @@ export class NavbarComponent implements AfterViewInit {
       portfolio: PortfolioComponent,
       blog: BlogComponent,
       contact: ContactComponent,
+      admin: AdminPanelComponent,
     };
 
     console.log(components[page]);

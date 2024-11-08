@@ -1,0 +1,232 @@
+<article class="contact active">
+  <header>
+    <h2 class="h2 article-title">Admin</h2>
+  </header>
+  <section class="contact-form">
+    <h3 class="h3 form-title">Admin Form</h3>
+
+    <div class="h4 form-title">
+      <label class="" for="model-select">Seleziona Modello:</label>
+      <select
+        class="filter-select"
+        id="model-select"
+        [(ngModel)]="modelSelected"
+        (ngModelChange)="onModelChange()"
+      >
+        <option value="">-- Seleziona un'opzione --</option>
+        @for (item of models; track $index) {
+
+        <option [value]="item">{{ item | titlecase }}</option>
+        }
+      </select>
+    </div>
+    @if (modelSelected) {
+
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="form">
+      @switch (modelSelected) { @case ('blog') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="date"
+          class="form-input"
+          placeholder="Date es. Jan 12,2024"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="img"
+          class="form-input"
+          placeholder="imgfile.ext"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="category"
+          class="form-input"
+          placeholder="Blog Category"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="link"
+          class="form-input"
+          placeholder="Link article"
+          required
+        />
+        <!-- <input class="form-input" type="file" placeholder="add file" /> -->
+      </div>
+
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+        <!-- <button class="form-btn" (click)="loadImage()">
+          <i class="bi bi-eye-fill"></i> <span>View </span>
+        </button> -->
+        <!--
+        <div id="imageContainer"></div> -->
+      </div>
+
+      <textarea
+        formControlName="description"
+        class="form-input"
+        placeholder="Description"
+        required
+      ></textarea>
+
+      } @case ('project') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="text"
+          formControlName="img"
+          class="form-input"
+          placeholder="filename.ext"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="category"
+          class="form-input"
+          placeholder="Project Type"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="link"
+          class="form-input"
+          placeholder="Link project"
+          required
+        />
+
+        <!-- <input class="form-input" type="file" placeholder="add file" /> -->
+      </div>
+
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+        <!-- <button class="form-btn" (click)="loadImage()">
+          <i class="bi bi-eye-fill"></i> <span>View </span>
+        </button> -->
+
+        <!-- <div id="imageContainer"></div> -->
+      </div>
+
+      } @case ('service') {
+
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="text"
+          formControlName="img"
+          class="form-input"
+          placeholder="filename.ext"
+          required
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+        <!-- <button class="form-btn" (click)="loadImage()">
+          <i class="bi bi-eye-fill"></i> <span>View </span>
+        </button> -->
+
+        <!-- <div id="imageContainer"></div> -->
+      </div>
+
+      <textarea
+        formControlName="description"
+        class="form-input"
+        placeholder="Description"
+        required
+      ></textarea>
+      } @case ('client') {
+      <input
+        type="text"
+        formControlName="title"
+        class="form-input"
+        placeholder="imgfile.ext"
+        required
+      />
+
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+        <!-- <button class="form-btn" (click)="loadImage()">
+          <i class="bi bi-eye-fill"></i> <span>View </span>
+        </button> -->
+        <!--
+        <div id="imageContainer"></div> -->
+      </div>
+
+      } @default { } }
+
+      <button class="form-btn" type="submit" [disabled]="form.invalid">
+        <i class="bi bi-save"></i>
+        <span>Save</span>
+      </button>
+    </form>
+
+    }
+  </section>
+</article>
+@if (toastMessage) {
+<fdr11-toast
+  [message]="toastMessage"
+  [type]="toastType"
+  [duration]="toastDuration"
+/>
+}
