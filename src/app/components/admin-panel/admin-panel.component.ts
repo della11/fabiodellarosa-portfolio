@@ -1,3 +1,5 @@
+import { Experience } from './../../models/experience';
+import { Education } from './../../models/education';
 import { Project } from './../../models/project';
 import { Blog } from './../../models/blog';
 import { Component, inject, OnInit } from '@angular/core';
@@ -14,14 +16,19 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { ToastService } from '../../services/toast.service';
 import { Client } from '../../models/client';
 import { TitlecasePipe } from '../../pipes/titlecase.pipe';
+import { Testimonial } from '../../models/testimonial';
+import { Skill } from '../../models/skill';
 
 // Complex Type Alias
 enum FormsType {
   Blog = 'blog',
   Project = 'project',
   Service = 'service',
-
   Client = 'client',
+  Testimonial = 'testimonial',
+  Education = 'education',
+  Experience = 'experience',
+  Skill = 'skill',
 }
 
 @Component({
@@ -38,7 +45,17 @@ export class AdminPanelComponent implements OnInit {
   toastType: 'success' | 'error' | 'info' | 'warning' = 'info';
   toastDuration: number = 3000;
 
-  models: string[] = ['blog', 'project', 'service', 'client']; //TODO - Add missing  sections to forms - testimonials, education, experience,
+  models: string[] = [
+    'blog', //COMPLETED
+    'project', //TODO
+    'service', //COMPLETED
+    'client', //COMPLETED
+    'image', //TODO
+    'testimonial', //TODO request
+    'education', //COMPLETED
+    'experience', //COMPLETED
+    'skill',
+  ]; //TODO - Add missing  sections to form
   modelSelected: string | null = null;
   fb = inject(FormBuilder);
   firebaseService = inject(FirebaseService);
@@ -68,6 +85,28 @@ export class AdminPanelComponent implements OnInit {
     },
     client: {
       title: ['', Validators.required],
+    },
+    image: {},
+    testimonial: {
+      title: ['', Validators.required],
+      img: ['', Validators.required],
+      description: ['', Validators.required],
+      date: ['', Validators.required],
+    },
+    education: {
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      date: ['', Validators.required],
+    },
+    experience: {
+      title: ['', Validators.required],
+      subtitle: ['', Validators.required],
+      description: ['', Validators.required],
+      date: ['', Validators.required],
+    },
+    skill: {
+      title: ['', Validators.required],
+      value: ['', Validators.required],
     },
   };
 
@@ -116,6 +155,41 @@ export class AdminPanelComponent implements OnInit {
               model.value.title
             );
             break;
+          case FormsType.Testimonial:
+            this.firebaseService.createDoc(
+              model.value,
+              'testimonial',
+              model.value.title
+            );
+            break;
+          case FormsType.Education:
+            this.firebaseService.createDoc(
+              model.value,
+              'education',
+              model.value.title
+            );
+            break;
+          case FormsType.Experience:
+            this.firebaseService.createDoc(
+              model.value,
+              'experience',
+              model.value.title
+            );
+            break;
+          case FormsType.Skill:
+            this.firebaseService.createDoc(
+              model.value,
+              'skill',
+              model.value.title
+            );
+            break;
+          default:
+            this.toastService.showToast(
+              'Form non gestito su salvataggio',
+              'error',
+              3000
+            );
+            return;
         }
       }
 
@@ -133,6 +207,26 @@ export class AdminPanelComponent implements OnInit {
         return { type: FormsType.Service, value: this.form.value as Service };
       case 'client':
         return { type: FormsType.Client, value: this.form.value as Client };
+      case 'education':
+        return {
+          type: FormsType.Education,
+          value: this.form.value as Education,
+        };
+      case 'experience':
+        return {
+          type: FormsType.Experience,
+          value: this.form.value as Experience,
+        };
+      case 'testimonial':
+        return {
+          type: FormsType.Testimonial,
+          value: this.form.value as Testimonial,
+        };
+      case 'skill':
+        return {
+          type: FormsType.Skill,
+          value: this.form.value as Skill,
+        };
       default:
         return;
     }
@@ -160,19 +254,19 @@ export class AdminPanelComponent implements OnInit {
     );
     document.getElementById('imageContainer')?.appendChild(img);
   }
-  upload(): void {
-    if (this.selectedFile) {
-      this.firebaseService
-        .uploadFile(this.selectedFile, `uploads/${this.selectedFile.name}`)
-        .subscribe();
-    }
-  }
+  // upload(): void {
+  //   if (this.selectedFile) {
+  //     this.firebaseService
+  //       .uploadFile(this.selectedFile, `uploads/${this.selectedFile.name}`)
+  //       .subscribe();
+  //   }
+  // }
 
   ngOnInit(): void {
     this.toastService.toastState.subscribe((toast) => {
       this.toastMessage = toast.message;
       this.toastType = toast.type;
-      this.toastDuration = toast.duration || 3000;
+      this.toastDuration = toast.duration ?? 3000;
 
       // Reset toast message after the duration
       setTimeout(() => (this.toastMessage = ''), this.toastDuration);

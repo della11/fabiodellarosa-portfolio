@@ -212,6 +212,142 @@
         <div id="imageContainer"></div> -->
       </div>
 
+      } @case ('testimonial') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="text"
+          formControlName="img"
+          class="form-input"
+          placeholder="filename.ext"
+          required
+        />
+        <input
+          type="text"
+          formControlName="date"
+          class="form-input"
+          placeholder="Date es. Jan 12,2024"
+          required
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+        <!-- <button class="form-btn" (click)="loadImage()">
+              <i class="bi bi-eye-fill"></i> <span>View </span>
+            </button> -->
+
+        <!-- <div id="imageContainer"></div> -->
+      </div>
+
+      <textarea
+        formControlName="description"
+        class="form-input"
+        placeholder="Description"
+        required
+      ></textarea>
+
+      } @case ('image') {
+      <div class="input-wrapper">
+        <input
+          type="file"
+          class="form-input"
+          (change)="onFileSelected($event)"
+          placeholder="source image"
+        />
+        <button class="form-btn" (click)="saveImage()">
+          <i class="bi bi-save"></i> <span>Save Image</span>
+        </button>
+      </div>
+
+      } @case ('education') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="date"
+          class="form-input"
+          placeholder="Date es. Jan 12,2024"
+          required
+        />
+      </div>
+      <textarea
+        formControlName="description"
+        class="form-input"
+        placeholder="Description"
+        required
+      ></textarea>
+
+      } @case ('experience') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="text"
+          formControlName="subtitle"
+          class="form-input"
+          placeholder="Work position"
+          required
+        />
+
+        <input
+          type="text"
+          formControlName="date"
+          class="form-input"
+          placeholder="Date es. Jan 12,2024"
+          required
+        />
+      </div>
+      <textarea
+        formControlName="description"
+        class="form-input"
+        placeholder="Description"
+        required
+      ></textarea>
+
+      } @case ('skill') {
+      <div class="input-wrapper">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-input"
+          placeholder="Title"
+          required
+        />
+        <input
+          type="number"
+          formControlName="value"
+          class="form-input"
+          placeholder="percentage"
+          required
+        />
+      </div>
       } @default { } }
 
       <button class="form-btn" type="submit" [disabled]="form.invalid">

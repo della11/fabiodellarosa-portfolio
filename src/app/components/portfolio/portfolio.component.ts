@@ -71,6 +71,7 @@ export class PortfolioComponent {
   }
 
   toggleSelectList(): void {
+    console.log('changeOpenClose', this.isSelectListOpen);
     this.isSelectListOpen = !this.isSelectListOpen;
   }
 

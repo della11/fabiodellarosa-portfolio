@@ -1,0 +1,20 @@
+<section class="skill">
+  <h3 class="h3 skills-title">My skills</h3>
+
+  <ul class="skills-list content-card">
+    @for (skill of skills; track $index) {
+    <li class="skills-item">
+      <div class="title-wrapper">
+        <h5 class="h5">{{ skill.title }}</h5>
+        <data [value]="skill.value"> {{ getPerc(skill.value) }}</data>
+      </div>
+      <div class="skill-progress-bg">
+        <div
+          class="skill-progress-fill"
+          [ngStyle]="{ width: getPerc(skill.value) }"
+        ></div>
+      </div>
+    </li>
+    }
+  </ul>
+</section>

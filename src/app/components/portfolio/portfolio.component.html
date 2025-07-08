@@ -290,8 +290,12 @@
     </ul>
 
     <div class="filter-select-box">
-      <button class="filter-select" data-select (click)="toggleSelectList()">
-        <div class="select-value" data-select-value>
+      <button
+        class="filter-select"
+        [class.active]="isSelectListOpen"
+        (click)="toggleSelectList()"
+      >
+        <div class="select-value">
           {{ selectedCategory | titlecase }}
         </div>
         <div class="select-icon">
@@ -303,11 +307,12 @@
       <ul class="select-list">
         @for (category of categories; track $index) {
         <li class="filter-item">
-          <button (click)="selectCategory(category)">{{ category }}</button>
+          <button class="text-gray" (click)="selectCategory(category)">
+            {{ category }}
+          </button>
         </li>
         }
       </ul>
-
       }
     </div>
 

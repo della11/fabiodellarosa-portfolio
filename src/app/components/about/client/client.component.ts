@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase.service';
 import { Client } from '../../../models/client';
 import { AsyncPipe } from '@angular/common';
-import { Image } from '../../../models/image';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,7 +15,7 @@ export class ClientComponent implements OnInit {
   clientsImages: string[] = [];
 
   clientsImages$!: Observable<string | null>[];
-  private firebaseService = inject(FirebaseService);
+  private readonly firebaseService = inject(FirebaseService);
 
   ngOnInit(): void {
     this.firebaseService.getCollection('client').subscribe((data: Client[]) => {

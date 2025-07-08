@@ -3,7 +3,7 @@
   <ul class="clients-list has-scrollbar">
     @for (imageUrl$ of clientsImages$; track $index) {
     <li class="clients-item">
-      <a href="#">
+      <a>
         <img [src]="imageUrl$ | async" alt="client" />
       </a>
     </li>

@@ -5,11 +5,16 @@
     @for (service of services; track $index) {
     <li class="service-item">
       <div class="service-icon-box">
-        <img [src]="service.img" [alt]="service.title" width="40" />
+        <img
+          [src]="imageCache[service.img] | async"
+          [alt]="service.title"
+          width="40"
+        />
       </div>
-
       <div class="service-content-box">
-        <h4 class="h4 service-item-title">{{ service.title | titlecase }}</h4>
+        <h4 class="h4 service-item-title">
+          {{ service.title | titlecase }}
+        </h4>
 
         <p class="service-item-text">
           {{ service.description }}

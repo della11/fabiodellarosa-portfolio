@@ -2,20 +2,33 @@
   <h3 class="h3 testimonials-title">Testimonials</h3>
 
   <ul class="testimonials-list has-scrollbar">
-    @for (testimonial of testimonials; track $index) {
+    @if (testimonials.length > 0) { @for (testimonial of testimonials; track
+    $index) {
     <li class="testimonials-item">
       <div class="content-card" (click)="openModal(testimonial)">
         <figure class="testimonials-avatar-box">
-          <img [src]="testimonial.img" [alt]="testimonial.name" width="60" />
+          <img
+            [src]="imageCache[testimonial.img] | async"
+            [alt]="testimonial.title"
+            width="60"
+          />
         </figure>
 
-        <h4 class="h4 testimonials-item-title">{{ testimonial.name }}</h4>
+        <h4 class="h4 testimonials-item-title">{{ testimonial.title }}</h4>
 
         <div class="testimonials-text">
-          <p>{{ testimonial.text }}</p>
+          <p>{{ testimonial.description }}</p>
         </div>
       </div>
     </li>
+    }} @else {
+    <div class="content-card">
+      <h4 class="h4 testimonials-item-title">No Testimonials</h4>
+
+      <div class="testimonials-text">
+        <p></p>
+      </div>
+    </div>
     }
   </ul>
 </section>
@@ -33,8 +46,8 @@
     <div class="modal-img-wrapper">
       <figure class="modal-avatar-box">
         <img
-          [src]="selectedTestimonial?.img"
-          [alt]="selectedTestimonial?.name"
+          [src]="imageCache[selectedTestimonial.img] | async"
+          [alt]="selectedTestimonial?.title"
           width="80"
         />
       </figure>
@@ -43,11 +56,11 @@
     </div>
 
     <div class="modal-content">
-      <h4 class="h3 modal-title">{{ selectedTestimonial?.name }}</h4>
+      <h4 class="h3 modal-title">{{ selectedTestimonial?.title }}</h4>
       <time>{{ selectedTestimonial?.date }}</time>
 
       <div>
-        <p>{{ selectedTestimonial?.text }}</p>
+        <p>{{ selectedTestimonial?.description }}</p>
       </div>
     </div>
   </section>

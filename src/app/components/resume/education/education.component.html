@@ -1,0 +1,20 @@
+<section class="timeline">
+  <div class="title-wrapper">
+    <div class="icon-box"><i class="bi bi-book"></i></div>
+
+    <h3 class="h3">Education</h3>
+  </div>
+
+  <ol class="timeline-list">
+    @for (education of educations ; track education.title) {
+    <li class="timeline-item">
+      <h4 class="h4 timeline-item-title">
+        {{ education.title }}
+      </h4>
+      <span>{{ education.date }}</span>
+      <p class="timeline-text">{{ education.description }}</p>
+    </li>
+
+    }
+  </ol>
+</section>

@@ -8,7 +8,7 @@ import { Image } from '../models/image';
 })
 export class FirebaseService<T> {
   private readonly firestore = inject(AngularFirestore);
-  private readonly storage = inject(AngularFireStorage);
+  // private readonly storage = inject(AngularFireStorage);
   // Crea un documento con un ID specificato o uno generato automaticamente
   createDoc(data: T, path: string, id?: string): Promise<void> {
     const ref = id
@@ -37,19 +37,19 @@ export class FirebaseService<T> {
     return this.firestore.doc<T>(`${path}/${id}`).delete();
   }
 
-  uploadFile(file: File, filePath: string) {
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file);
-    return task
-      .snapshotChanges()
-      .pipe(
-        finalize(() =>
-          fileRef
-            .getDownloadURL()
-            .subscribe((url) => console.log('File available at', url))
-        )
-      );
-  }
+  // uploadFile(file: File, filePath: string) {
+  //   const fileRef = this.storage.ref(filePath);
+  //   const task = this.storage.upload(filePath, file);
+  //   return task
+  //     .snapshotChanges()
+  //     .pipe(
+  //       finalize(() =>
+  //         fileRef
+  //           .getDownloadURL()
+  //           .subscribe((url) => console.log('File available at', url))
+  //       )
+  //     );
+  // }
 
   private convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -117,6 +117,18 @@ export class FirebaseService<T> {
           return `data:image/${imageName.split('.')[1]};base64,${
             imageDoc.image
           }`; // Format base64 for image source
+        })
+      );
+  }
+
+  getImageSvg(imageName: string): Observable<string | null> {
+    return this.firestore
+      .collection('images')
+      .doc(imageName)
+      .valueChanges()
+      .pipe(
+        map((imageDoc: any) => {
+          return `data:image/svg+xml;base64,${imageDoc.image}`; // Format base64 for image source
         })
       );
   }

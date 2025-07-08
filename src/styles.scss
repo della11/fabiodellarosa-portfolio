@@ -909,6 +909,7 @@ main {
   border-radius: 14px;
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
+  z-index: 1;
 }
 
 .filter-select.active .select-icon {
@@ -1704,7 +1705,7 @@ textarea.form-input::-webkit-resizer {
   }
 
   .filter-item button {
-    color: var(--light-gray);
+    color: var(--light-gray) !important;
     font-size: var(--fs-5);
     transition: var(--transition-1);
   }
