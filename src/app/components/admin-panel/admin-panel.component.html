@@ -12,6 +12,7 @@
         id="model-select"
         [(ngModel)]="modelSelected"
         (ngModelChange)="onModelChange()"
+        [disabled]="isSavingCertification"
       >
         <option value="">-- Seleziona un'opzione --</option>
         @for (item of models; track $index) {
@@ -348,11 +349,40 @@
           required
         />
       </div>
+      } @case ('certification') {
+      <div class="input-wrapper">
+        <div>
+          <label class="h4" for="certification-title">Title</label>
+          <input
+            id="certification-title"
+            type="text"
+            formControlName="title"
+            class="form-input"
+            maxlength="200"
+            required
+          />
+        </div>
+        <div>
+          <label class="h4" for="certification-pdf">PDF</label>
+          <input
+            #certificationPdf
+            id="certification-pdf"
+            type="file"
+            accept=".pdf,application/pdf"
+            class="form-input"
+            aria-describedby="certification-pdf-help"
+            [disabled]="isSavingCertification"
+            (change)="onCertificationFileSelected($event)"
+            required
+          />
+          <p id="certification-pdf-help" class="timeline-text">PDF, max 700 KB.</p>
+        </div>
+      </div>
       } @default { } }
 
-      <button class="form-btn" type="submit" [disabled]="form.invalid">
+      <button class="form-btn" type="submit" [disabled]="form.invalid || isSavingCertification">
         <i class="bi bi-save"></i>
-        <span>Save</span>
+        <span>{{ isSavingCertification ? 'Saving…' : 'Save' }}</span>
       </button>
     </form>
 

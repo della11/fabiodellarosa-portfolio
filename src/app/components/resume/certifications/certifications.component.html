@@ -1,0 +1,30 @@
+<section class="timeline">
+  <div class="title-wrapper">
+    <div class="icon-box"><i class="bi bi-award" aria-hidden="true"></i></div>
+    <h3 class="h3">Certifications</h3>
+  </div>
+
+  @if (certifications$ | async; as certifications) {
+    @if (loadFailed) {
+      <p class="timeline-text" role="alert">Unable to load certifications. Please try again later.</p>
+    } @else if (certifications.length) {
+      <ol class="timeline-list">
+        @for (certification of certifications; track $index) {
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">{{ certification.title }}</h4>
+            <a
+              class="pdf-link"
+              [href]="'data:application/pdf;base64,' + certification.pdf"
+              [download]="certification.fileName"
+              [attr.aria-label]="'Download PDF: ' + certification.title"
+            >Download PDF</a>
+          </li>
+        }
+      </ol>
+    } @else {
+      <p class="timeline-text">No certifications added yet.</p>
+    }
+  } @else {
+    <p class="timeline-text" role="status">Loading certifications…</p>
+  }
+</section>

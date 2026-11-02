@@ -1,6 +1,9 @@
+import { Category } from './enums';
+
 export interface Project {
   title: string;
-  category: string;
+  category: Category;
   img: string;
   link: string;
+  tags: Array<string>;
 }

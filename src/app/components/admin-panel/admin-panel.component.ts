@@ -2,7 +2,7 @@ import { Experience } from './../../models/experience';
 import { Education } from './../../models/education';
 import { Project } from './../../models/project';
 import { Blog } from './../../models/blog';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -40,6 +40,8 @@ enum FormsType {
 })
 export class AdminPanelComponent implements OnInit {
   form!: FormGroup;
+  isSavingCertification = false;
+  @ViewChild('certificationPdf') certificationPdf?: ElementRef<HTMLInputElement>;
 
   toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' | 'warning' = 'info';
@@ -55,6 +57,7 @@ export class AdminPanelComponent implements OnInit {
     'education', //COMPLETED
     'experience', //COMPLETED
     'skill',
+    'certification',
   ]; //TODO - Add missing  sections to form
   modelSelected: string | null = null;
   fb = inject(FormBuilder);
@@ -108,6 +111,13 @@ export class AdminPanelComponent implements OnInit {
       title: ['', Validators.required],
       value: ['', Validators.required],
     },
+    certification: {
+      title: [
+        '',
+        [Validators.required, Validators.pattern(/\S/), Validators.maxLength(200)],
+      ],
+      pdf: [null, Validators.required],
+    },
   };
 
   onModelChange() {
@@ -118,7 +128,11 @@ export class AdminPanelComponent implements OnInit {
     this.form = this.fb.group(modelConfig);
   }
 
-  submitForm() {
+  async submitForm() {
+    if (this.modelSelected === 'certification') {
+      await this.saveCertification();
+      return;
+    }
     if (this.form.valid) {
       console.log('Dati del Form:', this.form.value);
 
@@ -194,6 +208,36 @@ export class AdminPanelComponent implements OnInit {
       }
 
       this.toastService.showToast('Dato Aggiunto', 'success', 3000);
+    }
+  }
+
+  onCertificationFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.form.controls['pdf'].setValue(input.files?.[0] ?? null);
+  }
+
+  private async saveCertification(): Promise<void> {
+    if (this.form.invalid || this.isSavingCertification) return;
+
+    const { title, pdf } = this.form.getRawValue();
+    this.isSavingCertification = true;
+    this.form.disable();
+    try {
+      await this.firebaseService.saveCertification(title, pdf);
+      this.form.reset();
+      if (this.certificationPdf) this.certificationPdf.nativeElement.value = '';
+      this.toastService.showToast('Certificazione aggiunta', 'success', 3000);
+    } catch (error) {
+      this.toastService.showToast(
+        error instanceof Error
+          ? error.message
+          : 'Salvataggio della certificazione non riuscito.',
+        'error',
+        5000
+      );
+    } finally {
+      this.form.enable();
+      this.isSavingCertification = false;
     }
   }
 

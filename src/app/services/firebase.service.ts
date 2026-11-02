@@ -3,6 +3,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize, map, Observable, take } from 'rxjs';
 import { Image } from '../models/image';
+import {
+  Certification,
+  MAX_CERTIFICATION_PDF_SIZE,
+} from '../models/certification';
 @Injectable({
   providedIn: 'root',
 })
@@ -59,6 +63,30 @@ export class FirebaseService<T> {
       reader.onerror = (error) => reject(error);
     });
   }
+
+  async saveCertification(title: string, file: File): Promise<void> {
+    title = title.trim();
+    if (!title || title.length > 200) {
+      throw new Error('Inserisci un titolo da 1 a 200 caratteri.');
+    }
+    if (!file || !/\.pdf$/i.test(file.name)) {
+      throw new Error('Seleziona un file PDF.');
+    }
+    if (file.size > MAX_CERTIFICATION_PDF_SIZE) {
+      throw new Error('Il PDF deve essere al massimo di 700 KB.');
+    }
+    if ((await file.slice(0, 5).text()) !== '%PDF-') {
+      throw new Error('Il file selezionato non è un PDF valido.');
+    }
+
+    const dataUrl = await this.convertToBase64(file);
+    await this.firestore.collection<Certification>('certification').doc().set({
+      title,
+      fileName: file.name,
+      pdf: dataUrl.split(',')[1],
+    });
+  }
+
   async saveImage(selectedFile: File, name: string): Promise<void> {
     if (selectedFile) {
       try {

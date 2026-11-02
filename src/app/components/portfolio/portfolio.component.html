@@ -280,7 +280,7 @@
       @for (category of categories; track $index) {
       <li class="filter-item">
         <button
-          [class.active]="selectedCategory === category"
+          [class.active]="selectedCategory() === category"
           (click)="filterProjects(category)"
         >
           {{ category | titlecase }}
@@ -296,7 +296,7 @@
         (click)="toggleSelectList()"
       >
         <div class="select-value">
-          {{ selectedCategory | titlecase }}
+          {{ selectedCategory() | titlecase }}
         </div>
         <div class="select-icon">
           <i class="bi bi-chevron-down"></i>
@@ -307,7 +307,7 @@
       <ul class="select-list">
         @for (category of categories; track $index) {
         <li class="filter-item">
-          <button class="text-gray" (click)="selectCategory(category)">
+          <button class="text-white" (click)="selectCategory(category)">
             {{ category }}
           </button>
         </li>
@@ -321,15 +321,19 @@
       <li
         class="project-item"
         [class.active]="
-          selectedCategory === 'all' || selectedCategory === project.category
+          selectedCategory() === 'all' ||
+          selectedCategory() === project.category
         "
       >
-        <a href="#">
+        <a [href]="'https:\\' + project.link" target="_blank">
           <figure class="project-img">
             <div class="project-item-icon-box">
               <i class="bi bi-eye-fill"></i>
             </div>
-            <img [src]="project.img" [alt]="project.title" loading="lazy" />
+            <img
+              [src]="imageCache[project.img] | async"
+              [alt]="project.title"
+            />
           </figure>
           <h3 class="project-title">{{ project.title }}</h3>
           <p class="project-category">{{ project.category | titlecase }}</p>
