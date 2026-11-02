@@ -1,0 +1,86 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Generate Firebase environment
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          let firebase;
+          try {
+            firebase = JSON.parse(process.env.FIREBASE_CONFIG);
+          } catch {
+            throw new Error('Set the FIREBASE_CONFIG repository secret to the Firebase web configuration JSON.');
+          }
+          const keys = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+          for (const key of keys) {
+            if (typeof firebase?.[key] !== 'string' || !firebase[key].trim()) {
+              throw new Error(`FIREBASE_CONFIG requires a non-empty string for ${key}.`);
+            }
+          }
+          fs.mkdirSync('src/environments', { recursive: true });
+          fs.writeFileSync('src/environments/environment.ts',
+            `export const environment = ${JSON.stringify({ production: true, firebase })};\n`);
+          NODE
+
+      - name: Build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: npm run build -- --configuration=production --base-href="$BASE_PATH/"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/fabiodellarosa-portfolio/browser
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
